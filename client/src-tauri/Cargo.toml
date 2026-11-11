@@ -1,0 +1,27 @@
+[package]
+name = "gamepaddeck-desktop"
+version = "0.1.0"
+description = "GamepadDeck Desktop PC App & Virtual Gamepad Engine"
+authors = ["GamepadDeck Team"]
+license = "MIT"
+edition = "2021"
+
+[lib]
+name = "gamepaddeck_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2.1", features = [] }
+
+[dependencies]
+tauri = { version = "2.1", features = [] }
+tauri-plugin-log = "2"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+log = "0.4"
+tokio = { version = "1.40", features = ["full"] }
+tracing = "0.1"
+gamepaddeck-server = { path = "../../server-rust" }
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]

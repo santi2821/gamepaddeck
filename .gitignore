@@ -1,0 +1,33 @@
+# Local workspaces and reverse-engineering artifacts
+/.freebuff/
+/rea-repo/
+/analysis/
+/phone_screen.png
+
+# Dependencies, caches, and build output
+**/node_modules/
+**/target/
+**/build/
+**/.gradle/
+**/dist/
+**/coverage/
+**/.vite/
+**/__pycache__/
+
+# Machine-specific configuration and local secrets
+/android/local.properties
+.env
+.env.*
+!.env.example
+**/*.local
+
+# Logs and generated packages
+*.log
+*.apk
+*.aab
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

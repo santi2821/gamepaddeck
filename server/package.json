@@ -1,0 +1,25 @@
+{
+  "name": "@gamepaddeck/server",
+  "version": "0.1.0",
+  "description": "GamepadDeck Server & Controller Engine for PC (LithiumPad compatible)",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "test": "node --import tsx --test tests/**/*.test.ts"
+  },
+  "keywords": ["gamepad", "controller", "virtual-gamepad", "vigem", "lithiumpad", "udp", "websocket"],
+  "author": "GamepadDeck Team",
+  "license": "MIT",
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/ws": "^8.5.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

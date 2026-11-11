@@ -1,0 +1,352 @@
+/* GamepadDeck shell built on RomDeck's floating desktop sidebar and mobile dock
+   (apps/web/src/styles/deck-shell.css). One owner for the frame and headings. */
+
+:root {
+  --rd-sidebar: 232px;
+  --rd-gutter: 24px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Desktop sidebar
+ * ------------------------------------------------------------------------- */
+
+.app-sidebar {
+  position: fixed;
+  inset: 16px auto 16px 16px;
+  z-index: 32;
+  display: none;
+  flex-direction: column;
+  width: var(--rd-sidebar);
+  padding: 24px 14px 16px;
+  border-radius: 28px;
+  background: var(--color-panel);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 10px 26px;
+  border-radius: 12px;
+  color: var(--color-ink-1);
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.sidebar-brand svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sidebar-main {
+  display: grid;
+  gap: 4px;
+}
+
+.sidebar-group-title {
+  margin: 0 14px 8px;
+  color: var(--color-ink-4);
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  color: var(--color-ink-3);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.sidebar-link:hover {
+  background: var(--color-surface-2);
+  color: var(--color-ink-1);
+}
+
+.sidebar-link.is-active {
+  background: var(--color-ink-1);
+  color: var(--color-ink);
+  font-weight: 650;
+}
+
+.sidebar-link.is-active svg {
+  stroke-width: 2;
+}
+
+.sidebar-footer {
+  display: grid;
+  gap: 3px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-line);
+}
+
+.sidebar-status {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: var(--color-surface-2);
+}
+
+.sidebar-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--color-ink-4);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.sidebar-status-row strong {
+  color: var(--color-ink-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------------------
+ * Content column and page headings
+ * ------------------------------------------------------------------------- */
+
+.app-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  max-width: 1560px;
+  height: 100%;
+  margin-inline: auto;
+  padding: 28px 20px calc(112px + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.app-content--flush {
+  padding: 0;
+  max-width: none;
+  overflow: hidden;
+}
+
+.page-heading {
+  margin: 0 0 26px;
+}
+
+.page-heading-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.page-heading h1 {
+  color: var(--color-ink-1);
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.page-heading h1:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.page-heading p {
+  max-width: 70ch;
+  margin-top: 8px;
+  color: var(--color-ink-4);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.page-heading-actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-heading-actions :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+}
+
+/* Section headings follow the same hierarchy as a page heading, one step down. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-head h2 {
+  color: var(--color-ink-1);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 620;
+  letter-spacing: -0.03em;
+}
+
+.section-head span {
+  color: var(--color-ink-4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Mobile dock
+ * ------------------------------------------------------------------------- */
+
+.mobile-dock {
+  position: fixed;
+  inset: auto max(20px, env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
+  z-index: 40;
+  max-width: 360px;
+  margin-inline: auto;
+}
+
+.mobile-nav-glass {
+  --floating-blur: 24px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--nav-count), 1fr);
+  width: 100%;
+  height: 64px;
+  isolation: isolate;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: var(--color-nav-glass);
+  box-shadow: 0 12px 30px -14px #000;
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+.mobile-nav-pill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: calc(100% / var(--nav-count));
+  padding: 7px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.16);
+  background-clip: content-box;
+  transform: translateX(calc(var(--nav-index) * 100%));
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 200ms ease;
+}
+
+.mobile-nav-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 999px;
+  color: var(--color-ink-4);
+  transition: color 160ms ease;
+}
+
+.mobile-nav-item:hover {
+  color: var(--color-ink-2);
+}
+
+.mobile-nav-item[aria-current='page'] {
+  color: var(--color-ink-1);
+}
+
+.mobile-nav-item svg {
+  width: 22px;
+  height: 22px;
+}
+
+.mobile-nav-label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 14px;
+  letter-spacing: 0;
+}
+
+.mobile-nav-item:focus-visible {
+  outline-offset: -5px;
+}
+
+@media (min-width: 768px) {
+  .app-content {
+    margin-left: calc(var(--rd-sidebar) + 32px);
+    padding: 34px 28px 56px;
+  }
+  .app-content--flush {
+    margin-left: 0;
+    padding: 0;
+  }
+  .app-sidebar {
+    display: flex;
+  }
+  .mobile-dock {
+    display: none;
+  }
+  .page-heading-row {
+    align-items: center;
+    gap: 20px;
+  }
+  .page-heading h1 {
+    font-size: 38px;
+  }
+  .page-heading p {
+    margin-top: 9px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1050px) {
+  :root {
+    --rd-sidebar: 204px;
+  }
+  .app-content {
+    padding-inline: 20px;
+  }
+}
+
+@media (max-width: 359px) {
+  .app-content {
+    padding-inline: 16px;
+  }
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .app-sidebar {
+    corner-shape: superellipse(2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-pill {
+    transition: none;
+  }
+}

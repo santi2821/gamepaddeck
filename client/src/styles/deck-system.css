@@ -1,0 +1,295 @@
+/* Shared production primitives ported from RomDeck (apps/web/src/styles/system.css).
+   Controls, form fields and floating sheets live here so every surface behaves
+   the same way. Page compositions live in deck-shell.css. */
+
+:root {
+  -webkit-tap-highlight-color: transparent;
+  --mochy-radius-card: 20px;
+  --mochy-radius-control: 14px;
+  --mochy-radius-small: 10px;
+  --mochy-control-height: var(--rd-control-height);
+  --mochy-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Inter is the RomDeck brand typeface; the port keeps it intentionally. */
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink-2);
+  font-family: 'Inter Variable', Inter, sans-serif; /* impeccable-disable-line overused-font */
+  letter-spacing: -0.01em;
+}
+
+:is(button, a, [role='switch']) {
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
+:is(button, a):active {
+  scale: 0.97;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+  :is(button, a):active {
+    scale: 1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * AppSwitch: a native checkbox keeps checked, disabled and keyboard behaviour.
+ * ------------------------------------------------------------------------- */
+
+input[role='switch'] {
+  position: relative;
+  appearance: none;
+  inline-size: 52px;
+  block-size: 32px;
+  flex-shrink: 0;
+  margin: 0;
+  border: 1px solid #686868;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+input[role='switch']::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 50%;
+  background: #8e8e93;
+  transition:
+    translate 150ms var(--mochy-ease),
+    background-color 150ms ease;
+}
+
+input[role='switch']:checked {
+  border-color: #8e8e93;
+  background: #8e8e93;
+}
+
+input[role='switch']:checked::before {
+  translate: 20px 0;
+  background: #ffffff;
+}
+
+input[role='switch']:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[role='switch']:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Sheets: a floating, fully rounded surface. Bottom sheet on phones, centred
+ * dialog from md up, with safe margins based on the dynamic viewport.
+ * ------------------------------------------------------------------------- */
+
+.mochy-sheet-backdrop {
+  --mochy-sheet-available: calc(
+    100dvh - max(12px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))
+  );
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right))
+    max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  background: var(--color-scrim);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.mochy-sheet {
+  max-block-size: min(90vh, 900px);
+  max-block-size: min(90dvh, var(--mochy-sheet-available), 900px);
+  padding: 24px;
+  border: 0;
+  border-radius: 28px;
+  background: var(--color-panel);
+  box-shadow: var(--shadow-pop);
+  overflow-wrap: anywhere;
+  scrollbar-gutter: stable;
+  scroll-padding-block: 24px;
+}
+
+.mochy-sheet-handle {
+  block-size: 4px;
+  inline-size: 40px;
+  margin-block-end: 20px;
+  background: #686868;
+}
+
+.mochy-sheet-header {
+  align-items: center;
+  gap: 16px;
+}
+
+.mochy-sheet-header h2 {
+  min-inline-size: 0;
+  color: var(--color-ink-1);
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.mochy-sheet-close[class] {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 0;
+  background: var(--color-surface-2);
+}
+
+.mochy-sheet-content {
+  margin-block-start: 24px;
+}
+
+.mochy-sheet--with-footer {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mochy-sheet--with-footer
+  > :is(.mochy-sheet-handle, .mochy-sheet-header, .mochy-sheet-footer) {
+  flex-shrink: 0;
+}
+
+.mochy-sheet--with-footer > .mochy-sheet-content {
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  padding: 2px;
+  margin-inline: -2px;
+}
+
+.mochy-sheet-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 16px;
+  margin-top: 16px;
+  border-top: 1px solid var(--color-line);
+}
+
+@media (min-width: 768px) {
+  .mochy-sheet-backdrop {
+    --mochy-sheet-available: calc(100dvh - 64px);
+    padding: 32px;
+  }
+  .mochy-sheet {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 767px) {
+  .mochy-sheet {
+    padding: 20px;
+    border-radius: 24px;
+  }
+  .mochy-sheet-header h2 {
+    font-size: 19px;
+  }
+  .mochy-sheet-content {
+    margin-top: 16px;
+  }
+  .mochy-sheet-handle {
+    margin-bottom: 12px;
+  }
+  :is(input:not([type='checkbox']), select, textarea) {
+    font-size: 16px;
+  }
+}
+
+@keyframes mochy-sheet-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mochy-sheet {
+  animation: mochy-sheet-enter 400ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mochy-sheet {
+    animation: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Shared state panels, meters and skeletons.
+ * ------------------------------------------------------------------------- */
+
+:is(.empty-state, .error-state) {
+  padding: 28px;
+  border-radius: var(--rd-panel-radius);
+  background: var(--color-panel);
+  text-align: center;
+  color: var(--color-ink-3);
+}
+
+:is(.empty-state, .error-state) h2 {
+  color: var(--color-ink-1);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Thin measurement bar used by triggers, deadzone and sampling readouts. */
+.rd-meter {
+  position: relative;
+  block-size: 8px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: var(--color-surface-3);
+}
+
+.rd-meter > span {
+  display: block;
+  block-size: 100%;
+  inline-size: 100%;
+  transform-origin: left center;
+  border-radius: inherit;
+  background: var(--color-ink-1);
+  transition: transform 80ms linear;
+}
+
+@keyframes rd-skeleton-reveal {
+  to {
+    opacity: 1;
+  }
+}
+
+.rd-skeleton {
+  opacity: 0;
+  animation: rd-skeleton-reveal 1ms 120ms forwards;
+  background: var(--color-surface-2);
+  border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rd-meter > span {
+    transition: none;
+  }
+}
